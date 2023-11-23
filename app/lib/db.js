@@ -4,9 +4,12 @@ const connect = async() => {
     try{
         await mongoose.connect(process.env.MONGO_URI, {
             useNewUrlParser: true,
-            
+            useUnifiedTopology: true
         })
-    } catch {
-
+        console.log("Mongo Connected!")
+    } catch(error) {
+        throw new Error('Error connecting to mongodb')
     }
 }
+
+export default connect;

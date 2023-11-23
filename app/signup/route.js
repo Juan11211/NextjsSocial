@@ -1,34 +1,32 @@
-import { connect } from '../lib/db';
-import User from '../lib/models/User';
-import jwt from 'jsonwebtoken';
+import { NextResponse } from "next/server";
+import connect from "../lib/db";
+import User from "../lib/models/User";
+import bcrypt from 'bcryptjs'
 
-connect();
+export const POST = async(request) => { 
+    const {username, email, password} = await request.json();
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { username, email, password } = req.body;
+    await connect(); 
 
-    try {
-      // Hash the password before saving it to the database
-      const hashedPassword = ""; // use a password hashing library
+    const existingUsername = await User.findOne({username})
+    
+    const existingEmail = await User.findOne({email});
 
-      const newUser = new User({ username, email, password: hashedPassword });
-      await newUser.save();
-
-      // Generate a JWT token for the newly created user
-      const token = jwt.sign(
-        { userId: newUser._id, email: newUser.email },
-        process.env.SECRET, 
-        
-      );
-
-      // Send the token to the client
-      res.status(201).json({ message: 'User created successfully', token });
-    } catch (error) {
-      console.error('Error creating user:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    if(existingUsername){
+        return new NextResponse(`Username is already takene`)
     }
-  } else {
-    res.status(405).json({ error: 'Method Not Allowed' });
-  }
+
+    if(existingEmail){
+        return new NextResponse(`Email is already taken`)
+    };
+
+
+    try{
+
+    } catch(err){
+        return new NextResponse(err, {
+            status: 500,
+        })
+    }
+
 }

@@ -34,7 +34,7 @@ export const POST = async (request) => {
       status: 200,
     });
   } catch (err) {
-    return new NextResponse(`This is not connecting`, {
+    return new NextResponse(`User is not registering`, {
       status: 500,
     });
   }

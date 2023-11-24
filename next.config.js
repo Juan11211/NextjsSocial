@@ -28,7 +28,7 @@ const nextConfig = {
       },
     ];
   },
-  // presets: ['next/babel'], // Move this line outside of the redirects function
+  //presets: ['next/babel'], // Move this line outside of the redirects function
 };
 
 module.exports = nextConfig;
